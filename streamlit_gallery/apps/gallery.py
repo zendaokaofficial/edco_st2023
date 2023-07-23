@@ -1,36 +1,72 @@
+import altair as alt
+from vega_datasets import data
 import streamlit as st
-
-from streamlit_ace import st_ace, KEYBINDINGS, LANGUAGES, THEMES
-from streamlit_gallery.utils.readme import readme
-
+import pandas as pd
+from datetime import datetime, timedelta
+import math
 
 def main():
-    with readme("streamlit-ace", st_ace, __file__):
-        c1, c2 = st.columns([3, 1])
+    st. set_page_config(layout="wide")
+    @st.cache_data
+    def convert_df(df):
+    return df.to_csv(index=False).encode('utf-8')
 
-        c2.subheader("Parameters")
+    sheet_id = "1QsP2rfSIC5TkpqNpsccigQHO5ydps2msozFKmsoNCXk"
+    source = pd.read_csv(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid=1607729660")
+    source = source.iloc[:,[14,15,18]]
+    source = source[source["Petugas Edcod"].notnull()].reset_index()
 
-        with c1:
-            content = st_ace(
-                placeholder=c2.text_input("Editor placeholder", value="Write your code here"),
-                language=c2.selectbox("Language mode", options=LANGUAGES, index=121),
-                theme=c2.selectbox("Theme", options=THEMES, index=35),
-                keybinding=c2.selectbox("Keybinding mode", options=KEYBINDINGS, index=3),
-                font_size=c2.slider("Font size", 5, 24, 14),
-                tab_size=c2.slider("Tab size", 1, 8, 4),
-                show_gutter=c2.checkbox("Show gutter", value=True),
-                show_print_margin=c2.checkbox("Show print margin", value=False),
-                wrap=c2.checkbox("Wrap enabled", value=False),
-                auto_update=c2.checkbox("Auto update", value=False),
-                readonly=c2.checkbox("Read-only", value=False),
-                min_lines=45,
-                key="ace",
-            )
+    ## Date
+    a = datetime.now()
+    b = datetime(2023, 7, 1, 0, 0, 0, 0)
+    subs = a - b
+    target = math.floor(subs.days/30 * 2000)
+    dftarget = pd.DataFrame({'target':[target]})
 
-            if content:
-                st.subheader("Content")
-                st.text(content)
+    c = alt.Chart(source).mark_bar(
+        cornerRadiusTopLeft=3,
+        cornerRadiusTopRight=3
+    ).encode(
+        x='sum(Jumlah L2):Q',
+        y='Petugas Edcod',
+        color = 'Status'
+    ).configure_range(
+        category=alt.RangeScheme(['#fdc086', '#7fc97f'])
+    ).configure_legend(
+        orient='top'
+    ).properties(
+        width=200,
+        height=600
+    )
 
+    rule = alt.Chart(dftarget).mark_rule(color='black').encode(
+        x='mean(target):Q'
+    ).properties(
+        width=200,
+        height=600
+    )
+
+    ## Olah Data
+    source_new = source.groupby(['Petugas Edcod', 'Status']).agg({'Jumlah L2':'sum'})
+    #source_new = source_new.set_index(['Petugas Edcod', 'Status'])
+
+    source_new2 = source_new.unstack(level=-1).reset_index().fillna(0)
+    source_new2.columns = ["Petugas Edcod", "Dikembalikan ke Koseka", "Selesai Editing Coding"]
+    source_new2.index = source_new2.index + 1
+    source_new2["Jumlah L2"] = source_new2["Dikembalikan ke Koseka"] + source_new2["Selesai Editing Coding"]
+
+    st.altair_chart(c, use_container_width=True)
+    st.dataframe(source_new2, use_container_width=True)
+
+    csv = convert_df(source_new2)
+
+    st.download_button(
+        "Press to Download",
+        csv,
+        f"Progress Editing Coding {datetime.now().day}{datetime.now().month}{datetime.now().year}_{datetime.now().minute}{datetime.now().second}.csv",
+        "text/csv",
+        key='download-csv'
+    )
 
 if __name__ == "__main__":
     main()
