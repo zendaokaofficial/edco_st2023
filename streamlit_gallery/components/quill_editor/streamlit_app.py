@@ -28,6 +28,7 @@ def main():
     if Filter != "PILIH PETUGAS EDCOD":
         source3 = source2[source2["Petugas Edcod"] == Filter]
         source3.reset_index(drop=True, inplace=True)
+        st.dataframe(source3, use_container_width=True)
     else:
         st.dataframe(source2, use_container_width=True)
 
