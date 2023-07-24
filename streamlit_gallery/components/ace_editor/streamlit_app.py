@@ -4,10 +4,10 @@ import pandas as pd
 from datetime import datetime, timedelta
 import math
 
-def main():
-    def convert_df(df):
-        return df.to_csv(index=False).encode('utf-8')
+def convert_df(df):
+    return df.to_csv(index=False).encode('utf-8')
 
+def main():
     sheet_id = "1QsP2rfSIC5TkpqNpsccigQHO5ydps2msozFKmsoNCXk"
     source = pd.read_csv(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid=1607729660")
     
