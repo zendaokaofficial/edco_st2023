@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 import math
 
 def main():
-    @st.cache_data
     def convert_df(df):
         return df.to_csv(index=False).encode('utf-8')
 
