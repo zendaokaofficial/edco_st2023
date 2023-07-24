@@ -15,7 +15,7 @@ def main():
 
         with st.expander("✨ EDITING CODING", True):
             page.item("Progres Petugas Editing Coding", apps.gallery, default=True)
-            page.item("Progres Menurut Wilayah", components.ace_editor)
+            page.item("Progres Menurut Wilayah", components.quill_editor)
             #page.item("Elements⭐", components.elements)
 
         with st.expander("🧩 ENTRI"):
