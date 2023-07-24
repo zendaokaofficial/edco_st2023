@@ -1,36 +1,66 @@
+import altair as alt
+from vega_datasets import data
 import streamlit as st
+import pandas as pd
+from datetime import datetime, timedelta
+import math
 
-from streamlit_ace import st_ace, KEYBINDINGS, LANGUAGES, THEMES
-from streamlit_gallery.utils.readme import readme
 
 
 def main():
-    with readme("streamlit-ace", st_ace, __file__):
-        c1, c2 = st.columns([3, 1])
+    st. set_page_config(layout="wide")
+    @st.cache_data
+    def convert_df(df):
+        return df.to_csv(index=False).encode('utf-8')
 
-        c2.subheader("Parameters")
+    sheet_id = "1QsP2rfSIC5TkpqNpsccigQHO5ydps2msozFKmsoNCXk"
+    source = pd.read_csv(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid=1607729660")
+    
+    source["ID SLS"] = source["ID SLS"].astype(str)
 
-        with c1:
-            content = st_ace(
-                placeholder=c2.text_input("Editor placeholder", value="Write your code here"),
-                language=c2.selectbox("Language mode", options=LANGUAGES, index=121),
-                theme=c2.selectbox("Theme", options=THEMES, index=35),
-                keybinding=c2.selectbox("Keybinding mode", options=KEYBINDINGS, index=3),
-                font_size=c2.slider("Font size", 5, 24, 14),
-                tab_size=c2.slider("Tab size", 1, 8, 4),
-                show_gutter=c2.checkbox("Show gutter", value=True),
-                show_print_margin=c2.checkbox("Show print margin", value=False),
-                wrap=c2.checkbox("Wrap enabled", value=False),
-                auto_update=c2.checkbox("Auto update", value=False),
-                readonly=c2.checkbox("Read-only", value=False),
-                min_lines=45,
-                key="ace",
-            )
+    source["Kode Provinsi"] = source["Kode Provinsi"].astype(str).str.zfill(2)
+    source["Kode Kab/Kota"] = source["Kode Kab/Kota"].astype(str).str.zfill(2)
+    source["Kode Kecamatan"] = source["Kode Kecamatan"].astype(str).str.zfill(3)
+    source["Kode Desa"] = source["Kode Desa"].astype(str).str.zfill(3)
+    source["Kode SLS"] = source["Kode SLS"].astype(str).str.zfill(6)
 
-            if content:
-                st.subheader("Content")
-                st.text(content)
+    ## Date
+    source2 = source.iloc[:,[0,1,2,3,4,5,6,7,8,9,14,15,18]]
+    source2.fillna('', inplace=True)
+    
+    lstPetugas = list(source["Petugas Edcod"].unique())
+    lstPetugas.insert(0, "PILIH PETUGAS EDCOD")
 
+    lstPetugas = [x for x in lstPetugas if str(x) != 'nan']
+
+    Filter = st.selectbox("Nama Petugas Edcod", lstPetugas, 0)
+    if Filter != "PILIH PETUGAS EDCOD":
+        source3 = source2[source2["Petugas Edcod"] == Filter]
+        source3.reset_index(drop=True, inplace=True)
+        #source3 = source3.reset_index()
+
+        #source3.index = source3.index + 1
+        st.dataframe(source3, use_container_width=True)
+        csv = convert_df(source3)
+
+        st.download_button(
+            "Press to Download",
+            csv,
+            f"Progress Editing Coding {datetime.now().day}{datetime.now().month}{datetime.now().year}_{datetime.now().minute}{datetime.now().second}.csv",
+            "text/csv",
+            key='download-csv'
+        )
+    else:
+        st.dataframe(source2, use_container_width=True)
+        csv = convert_df(source2)
+
+        st.download_button(
+            "Press to Download",
+            csv,
+            f"Progress Editing Coding {datetime.now().day}{datetime.now().month}{datetime.now().year}_{datetime.now().minute}{datetime.now().second}.csv",
+            "text/csv",
+            key='download-csv'
+        )
 
 if __name__ == "__main__":
     main()
