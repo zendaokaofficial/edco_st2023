@@ -9,13 +9,13 @@ def main():
     with st.sidebar:
         st.title("🌱 Simantab")
 
-        with st.expander("🏕️ LAPANGAN", True):
-            page.item("Dokumen Dikembalikan", apps.gallery, default=True)
+        with st.expander("🏕️ LAPANGAN"):
+            page.item("Dokumen Dikembalikan", apps.gallery)
             page.item("Rating PML", apps.gallery)
 
-        with st.expander("✨ EDITING CODING"):
-            page.item("Progres Petugas Editing Coding", components.ace_editor)
-            page.item("Progres Menurut Wilayah", components.disqus)
+        with st.expander("✨ EDITING CODING", True):
+            page.item("Progres Petugas Editing Coding", apps.gallery, default=True)
+            page.item("Progres Menurut Wilayah", components.ace_editor)
             #page.item("Elements⭐", components.elements)
 
         with st.expander("🧩 ENTRI"):
