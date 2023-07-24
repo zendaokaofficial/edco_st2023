@@ -10,8 +10,8 @@ def main():
         st.title("🌱 Simantab")
 
         with st.expander("🏕️ LAPANGAN"):
-            page.item("Dokumen Dikembalikan", apps.gallery)
-            page.item("Rating PML", apps.gallery)
+            page.item("Dokumen Dikembalikan", components.ace_editor)
+            page.item("Rating PML", components.ace_editor)
 
         with st.expander("✨ EDITING CODING", True):
             page.item("Progres Petugas Editing Coding", apps.gallery, default=True)
@@ -19,7 +19,7 @@ def main():
             #page.item("Elements⭐", components.elements)
 
         with st.expander("🧩 ENTRI"):
-            page.item("Progres Operator Entri", components.pandas_profiling)
+            page.item("Progres Operator Entri", components.ace_editor)
             #page.item("Quill editor", components.quill_editor)
             #page.item("React player", components.react_player)
 
