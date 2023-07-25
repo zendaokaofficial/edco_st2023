@@ -17,7 +17,7 @@ def main():
     source["Kode SLS"] = source["Kode SLS"].astype(str).str.zfill(6)
     
     source3 = source
-    source2 = source3[source3["Jumlah L2"].notnull()]
+    source2 = source3[source3["Waktu"].notnull()]
 
     source2 = source2[source2["Status"] == "Dikembalikan ke Koseka"]
     source2.loc[:,"Waktu"] = pd.to_datetime(source2["Waktu"], format = "%m/%d/%Y")
