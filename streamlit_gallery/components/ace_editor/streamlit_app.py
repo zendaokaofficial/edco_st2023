@@ -35,7 +35,7 @@ def main():
     )
     
     d = x.mark_bar() + x.mark_text(align='left', dx=6)
-    st.subheader["⭐ Rating/Nilai PML"]
+    st.subheader("⭐ Rating/Nilai PML")
     st.altair_chart(d, use_container_width=True)
     st.dataframe(source3.reset_index(drop = True), use_container_width=True)
 
