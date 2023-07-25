@@ -16,7 +16,7 @@ def main():
     source["Kode Desa"] = source["Kode Desa"].astype(str).str.zfill(3)
     source["Kode SLS"] = source["Kode SLS"].astype(str).str.zfill(6)
     
-    source2 = source
+    source3 = source
     source2 = source3[source3["Jumlah L2"].notnull()]
 
     source2 = source2[source2["Status"] == "Dikembalikan ke Koseka"]
