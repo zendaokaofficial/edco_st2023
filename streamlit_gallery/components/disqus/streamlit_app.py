@@ -28,9 +28,11 @@ def main():
 
     source4 = source2.loc[:,["Nama Kecamatan", "Nama Desa", "Nama SLS", "Nama Koseka", "Nama PML", "Waktu", "Lama Pengembalian"]].reset_index(drop=True)
 
+    source4["Lama Pengembalian] = source4["Lama Pengembalian].astype(str)
+
     st.subheader("Dokumen Dikembalikan")
 
-    st.dataframe(source4.reset_index(drop = True), use_container_width=True)
+    st.dataframe(source4, use_container_width=True)
 
 if __name__ == "__main__":
     main()
