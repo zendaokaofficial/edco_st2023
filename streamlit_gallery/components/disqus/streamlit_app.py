@@ -16,11 +16,7 @@ def main():
     source["Kode Desa"] = source["Kode Desa"].astype(str).str.zfill(3)
     source["Kode SLS"] = source["Kode SLS"].astype(str).str.zfill(6)
     
-    source3 = source.groupby(["Nama Koseka", "Nama PML"])['Rating'].mean()
-    source3 = source3.reset_index()
-    source3 = source3.sort_values("Rating")
-    source3["Rating"] = source3["Rating"].apply(lambda x : round(x,2))
-
+    source2 = source
     source2 = source3[source3["Jumlah L2"].notnull()]
 
     source2 = source2[source2["Status"] == "Dikembalikan ke Koseka"]
