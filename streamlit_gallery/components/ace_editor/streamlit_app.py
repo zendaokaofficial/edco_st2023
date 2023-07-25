@@ -31,7 +31,7 @@ def main():
         )
     ).properties(
         width=200,
-        height=600
+        height=1800
     )
     
     d = x.mark_bar() + x.mark_text(align='left', dx=6)
