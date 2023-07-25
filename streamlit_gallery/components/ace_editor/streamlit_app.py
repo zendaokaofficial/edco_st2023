@@ -36,7 +36,7 @@ def main():
     
     d = x.mark_bar() + x.mark_text(align='left', dx=6)
     st.altair_chart(d, use_container_width=True)
-    st.dataframe(source3.reset_index(True), use_container_width=True)
+    st.dataframe(source3.reset_index(drop = True), use_container_width=True)
 
 if __name__ == "__main__":
     main()
