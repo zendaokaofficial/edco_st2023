@@ -29,10 +29,13 @@ def main():
             alt.value("orange"),  # The positive color
             alt.value("green")  # The negative color
         )
+    ).properties(
+        width=200,
+        height=600
     )
     
     d = x.mark_bar() + x.mark_text(align='left', dx=6)
-    st.altair_chart(d)
+    st.altair_chart(d, use_container_width=True)
 
 if __name__ == "__main__":
     main()
