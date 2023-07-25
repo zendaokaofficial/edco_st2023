@@ -28,8 +28,6 @@ def main():
 
     source4 = source2.loc[:,["Nama Kecamatan", "Nama Desa", "Nama SLS", "Nama Koseka", "Nama PML", "Waktu", "Lama Pengembalian"]].reset_index(drop=True)
 
-    source4["Lama Pengembalian"] = source4["Lama Pengembalian"].values.astype('datetime64[D]')
-
     st.subheader("Dokumen Dikembalikan")
 
     st.dataframe(source4, use_container_width=True)
