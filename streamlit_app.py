@@ -10,7 +10,7 @@ def main():
         st.title("🌱 Simantab")
 
         with st.expander("🏕️ LAPANGAN"):
-            page.item("Dokumen Dikembalikan", components.ace_editor)
+            page.item("Dokumen Dikembalikan", components.disqus)
             page.item("Rating PML", components.ace_editor)
 
         with st.expander("✨ EDITING CODING", True):
