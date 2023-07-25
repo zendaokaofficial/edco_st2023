@@ -31,7 +31,8 @@ def main():
         )
     )
     
-    x.mark_bar() + x.mark_text(align='left', dx=6)
+    d = x.mark_bar() + x.mark_text(align='left', dx=6)
+    st.altair_chart(d)
 
 if __name__ == "__main__":
     main()
