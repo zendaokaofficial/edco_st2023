@@ -28,7 +28,7 @@ def main():
 
     source4 = source2.loc[:,["Nama Kecamatan", "Nama Desa", "Nama SLS", "Nama Koseka", "Nama PML", "Waktu", "Lama Pengembalian"]].reset_index(drop=True)
 
-    source4["Lama Pengembalian"] = source4["Lama Pengembalian"].astype(str)
+    source4["Lama Pengembalian"] = source4["Lama Pengembalian"].astype('timedelta64[D]').astpe(str)
 
     st.subheader("Dokumen Dikembalikan")
 
