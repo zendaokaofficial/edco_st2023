@@ -27,7 +27,7 @@ def main():
     source2["Lama Pengembalian"] = source2["Waktu Saat ini"] - source2["Waktu"]
 
     source4 = source2.loc[:,["Nama Kecamatan", "Nama Desa", "Nama SLS", "Nama Koseka", "Nama PML", "Waktu", "Lama Pengembalian"]].reset_index(drop=True)
-    source4["Lama Pengembalian"] = source4["Lama Pengembalian"].values.astype('datetime64[D]')
+    source4["Lama Pengembalian"] = source4["Lama Pengembalian"].astype('datetime64[D]')
 
     st.subheader("Dokumen Dikembalikan")
 
