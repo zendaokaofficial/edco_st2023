@@ -5,6 +5,10 @@ from datetime import datetime, timedelta
 import math
 
 def main():
+
+    @st.cache_data
+    def convert_df(df):
+        return df.to_csv(index=False).encode('utf-8')
     sheet_id = "1QsP2rfSIC5TkpqNpsccigQHO5ydps2msozFKmsoNCXk"
     
     source = pd.read_csv(f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv&gid=1607729660")    
@@ -38,6 +42,16 @@ def main():
     st.subheader("⭐ Rating/Nilai PML")
     st.altair_chart(d, use_container_width=True)
     st.dataframe(source3.reset_index(drop = True), use_container_width=True)
+
+    csv = convert_df(source3)
+
+    st.download_button(
+        "Press to Download",
+        csv,
+        f"Rating PML {datetime.now().day}{datetime.now().month}{datetime.now().year}_{datetime.now().minute}{datetime.now().second}.csv",
+        "text/csv",
+        key='download-csv'
+    )
 
 if __name__ == "__main__":
     main()
